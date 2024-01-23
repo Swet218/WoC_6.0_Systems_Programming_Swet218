@@ -3,10 +3,6 @@ import json
 import hashlib
 import datetime
 
-# from sortedcontainers import SortedDict
-# # Initialize a SortedDict
-# index_data = SortedDict()
-
 def clear_command():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -135,19 +131,6 @@ def main():
             status_command()
         elif command == 'clear':
             clear_command()
-
-            # if len(user_input) > 1:
-            #     add_command(user_input[1])
-        #     else:
-        #         print("Error: Specify a file to add.")
-        # elif command == 'commit':
-        #     if len(user_input) > 2 and user_input[1] == '-m':
-        #         commit_command(" ".join(user_input[2:]))
-        #     else:
-        #         print("Error: Specify a commit message with -m.")
-        # elif command == 'exit':
-        #     print("Exiting the program.")
-        #     break
         elif command == 'exit':
             break
         else:
@@ -155,16 +138,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-####################################################################################
-# Example usage:
-# if __name__ == "__main__":
-#     command = input("Enter command (init): ")
-
-    # if command.lower() == "init":
-    #     repo_path = os.path.dirname(os.path.abspath(__file__))
-    #     init_vcs(repo_path)
-    # else:
-    #     print("Invalid command. Use 'init'.")
-
-
