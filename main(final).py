@@ -295,7 +295,7 @@ def rmcommit():
             break
         cnt=cnt+1
 
-    print(cnt)
+    # print(cnt)
     
     if cnt==0:
         print("You don't have any commit to remove.")
