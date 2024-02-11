@@ -42,6 +42,7 @@ def help():
     print("  Maruti user set <username> - To change user")
     print("  Maruti push <path>         - To push your file to another folder")
     print("  Maruti clear/cls           - To clear Terminal Screen")
+    print("  Maruti location            - To know location where .maruti repository is present")
     print("")
     print("Created by - Swet Lakhani")
     print("")
@@ -49,7 +50,7 @@ def help():
 def init(repo_path):
     if not os.path.exists(os.path.join(repo_path, ".maruti")):
 
-        username = input("Enter your username: ")
+        username = input(" Enter your username: ")
         print("")
 
         vcs_dir = os.path.join(repo_path, '.maruti')
@@ -76,7 +77,7 @@ def init(repo_path):
             users_file.write(f"Timestamp: {timestamp.strftime('%H:%M:%S')}\n")
             users_file.write(f"User: {username}\n")
 
-        print(f"Initialized repository at {repo_path}")
+        print(f" Initialized repository at {repo_path}")
         print("")
 
     else :
@@ -84,12 +85,12 @@ def init(repo_path):
          print("This folder has already been intialised once...")
          print("")
 
-def add_command(filename):
+def add(filename):
     
     file_path = os.path.join(universal_dir_path, filename)
 
     if not os.path.exists(file_path):
-        print(f"The file '{filename}' does not exist.")
+        print(f" The file '{filename}' does not exist.")
         return
 
 
@@ -118,15 +119,15 @@ def add_command(filename):
 
     print(f"Added '{filename}' to the index.")
 
-def rmadd_command():
+def rmadd():
 
     index_path = os.path.join(universal_dir_path,'.maruti', 'branches', 'main', 'index.json')
     added_path = os.path.join(universal_dir_path,'.maruti', 'branches', 'main', 'added.json')
 
     if os.path.getsize(added_path) == 2:
 
-        print("You dont't have any tracked files")
-        print("Please add track files to continue")
+        print(" You dont't have any tracked files.")
+        print(" Please add track files to continue.")
         return
 
     with open(index_path, 'r') as index_file:
@@ -146,7 +147,7 @@ def rmadd_command():
     with open(index_path, 'w') as index_file:
         json.dump(index_data, index_file,indent=2)
 
-def status_command():
+def status():
 
     index_path = os.path.join(universal_dir_path,'.maruti', 'branches', 'main', 'index.json')
     added_path = os.path.join(universal_dir_path,'.maruti', 'branches', 'main', 'added.json')
@@ -164,8 +165,8 @@ def status_command():
             current_files.append(f)
 
     if current_files == [] :
-        print("There are no files present.")
-        print("Please Enter Files to track")
+        print(" There are no files present.")
+        print(" Please Enter Files to track")
         return
 
     untracked_files = [file for file in current_files if file not in index_data or calculate_file_hash_md5(os.path.join(universal_dir_path,file)) != index_data.get(file)]
@@ -184,14 +185,14 @@ def status_command():
         for file in untracked_files:
             print(f"- {file}")
     else:
-        print("All files are tracked.")
+        print(" All files are tracked.")
  
 def commit(usermsg):
 
     fpath=os.path.join(universal_dir_path,'.maruti','branches','main','added.json')
 
     if os.path.getsize(fpath) == 2:
-        print("Please add files to track and the commit")
+        print(" Please add files to track and the commit.")
         return
  
     file_hash=calculate_file_hash_md5(fpath)
@@ -233,7 +234,7 @@ def commit(usermsg):
         with open(fpath, 'w') as file:
             json.dump(data, file)
 
-        print("Done successfully")
+        print(" Commited successfully.")
         
         return 
 
@@ -278,7 +279,7 @@ def commit(usermsg):
     with open(fpath, 'w') as file:
         json.dump(data, file)
 
-    print("Done successfully")
+    print(" Commited successfully")
 
 flag = 0
 def rmcommit():
@@ -298,15 +299,17 @@ def rmcommit():
     # print(cnt)
     
     if cnt==0:
-        print("You don't have any commit to remove.")
+        print(" You don't have any commit to remove.")
         return 
     
     if cnt==1:
         if flag == 0:
-            print("Warning : You have only commit left.")
-            print("If you try to remove once again, then it will get permanently deleted.")
+            print(" Warning : You have only commit left.")
+            print(" If you try to remove once again, then all files will get permanently deleted.")
             flag=1
             return
+
+    flag=0
 
     for file in cfiles: 
          creation_time = os.path.getctime(f"{objectPath}/{file}")
@@ -354,14 +357,14 @@ def rmcommit():
               else :
                 os.remove(destination_path)
   
-    print("Done Successfully")
+    print(" Removed Last Commit Successfully.")
 
 def get_username():
 
     usersfile_path = os.path.join(universal_dir_path,'.maruti','branches','main','users.txt')
 
     if not os.path.exists(usersfile_path):
-        print("Warning : .maruti repository does not exist. first create it.")
+        print("Warning : .maruti repository does not exist. create it first.")
         return
 
     username = None
@@ -387,7 +390,7 @@ def change_username(new_username):
                 file.write(f"User: {new_username}\n")
             else:
                 file.write(line)
-    print("Username changed Successfully")
+    print(" Username changed Successfully")
 
 def log():
 
@@ -437,8 +440,8 @@ def log():
 def push(dstn_path):
     
     if not os.path.isdir(dstn_path):
-        print("Given Destination path is not of Directory/Folder")
-        print("Please Provide correct path")
+        print(" Given Destination path is not of Directory/Folder")
+        print(" Please Provide correct path")
         return
 
     match="0"
@@ -468,14 +471,14 @@ def push(dstn_path):
 
         with open(file_path, 'wb') as f:
             f.write(decodedContent)
-    print("Done Successfully")
+    print(" Done Successfully")
 
 def checkout(hash_val):
     hashvalue=f"{hash_val}.json"
     
     if not os.path.exists(os.path.join(universal_dir_path,'.maruti','objects',hashvalue)):
-        print("Given commit does not exist.")
-        print("Please Provide correct hash value of commit which exists.")
+        print(" Given commit does not exist.")
+        print(" Please Provide correct hash value of commit which exists.")
         return 
 
     objectPath = os.path.join(universal_dir_path,'.maruti','objects')
@@ -512,7 +515,7 @@ def checkout(hash_val):
               else :
                 os.remove(destination_path)
   
-    print("Done Successfully")
+    print(" Done Successfully")
 
 def main():
     
@@ -571,7 +574,7 @@ def main():
             
             if len(user_input) > 1:
                 file_name = user_input[1]
-                add_command(file_name)
+                add(file_name)
             else:
                 print("Error: Specify a file to add.")
 
@@ -580,7 +583,7 @@ def main():
                 print(".maruti Repository does not exists.")
                 continue
             
-            status_command()
+            status()
 
         elif command == 'commit':
             if not os.path.exists(check):
@@ -605,7 +608,7 @@ def main():
                 print(".maruti Repository does not exists.")
                 continue
             
-            rmadd_command()
+            rmadd()
                
         elif command == 'user':
             if not os.path.exists(check):
@@ -646,7 +649,9 @@ def main():
             else :
                 print("Enter valid syntax to perform checkout.")
         elif command == 'clear' or command == 'cls':
-                clear()    
+                clear()   
+        elif command == 'location':
+                print(f"Location where .maruti repository present is : {universal_dir_path}")
         elif command == 'exit':
             break
         else:
