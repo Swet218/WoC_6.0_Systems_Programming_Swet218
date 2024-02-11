@@ -295,11 +295,13 @@ def rmcommit():
             break
         cnt=cnt+1
 
+    print(cnt)
+    
     if cnt==0:
         print("You don't have any commit to remove.")
         return 
     
-    if cnt<=1:
+    if cnt==1:
         if flag == 0:
             print("Warning : You have only commit left.")
             print("If you try to remove once again, then it will get permanently deleted.")
@@ -315,9 +317,6 @@ def rmcommit():
 
     os.remove(f"{objectPath}/{last}")
 
-    if cnt<=1:
-        return 
-
     match="0"
     last=""
     cfiles=os.listdir(objectPath)
@@ -329,14 +328,17 @@ def rmcommit():
             match=creation_time_readable
             last=file
 
-    last_commit_path=f"{objectPath}/{last}"
-    state={}
+    if not last == "":
+        last_commit_path=f"{objectPath}/{last}"
+        state={}
 
-    with open(f"{last_commit_path}", 'r') as file:
-        state = json.load(file)
-    
-    all={}
-    all=state["all"]
+        with open(f"{last_commit_path}", 'r') as file:
+            state = json.load(file)
+        
+        all={}
+        all=state["all"]
+    else :
+        all={}
 
     all_file=os.listdir(universal_dir_path)
 
